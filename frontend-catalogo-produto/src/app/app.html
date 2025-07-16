@@ -1,0 +1,48 @@
+<main style="font-family: sans-serif; max-width: 600px; margin: 2rem auto;">
+  
+  <h1>Teste de Performance: Array vs. Mapa</h1>
+  <p>Esta interface chama o backend Node.js que criamos.</p>
+  
+  <div class="card">
+    <h3>Configuração da Busca</h3>
+    
+    <label for="metodo">1. Escolha o método de busca no backend:</label>
+    <div>
+      <input type="radio" id="metodo-array" name="metodo" value="array" [(ngModel)]="metodoBusca">
+      <label for="metodo-array">Array (Lento)</label>
+    </div>
+    <div>
+      <input type="radio" id="metodo-mapa" name="metodo" value="mapa" [(ngModel)]="metodoBusca">
+      <label for="metodo-mapa">Mapa (Rápido)</label>
+    </div>
+    
+    <div>
+      <input type="radio" id="metodo-mongo" name="metodo" value="mongo" [(ngModel)]="metodoBusca">
+      <label for="metodo-mongo">MongoDB (Rápido)</label>
+    </div>
+
+    <label for="searchId" style="margin-top: 1rem; display: block;">2. Digite o ID do produto:</label>
+    <input type="text" id="searchId" [(ngModel)]="idParaBuscar">
+    
+    <button (click)="buscarProduto()" [disabled]="buscando">
+      {{ buscando ? 'Buscando...' : 'Buscar Produto' }}
+    </button>
+  </div>
+
+  <div *ngIf="tempoDeBusca !== null" class="card resultado">
+    <h3>Resultados</h3>
+    <p>Endpoint chamado: <strong>/{{metodoBusca}}/{{idParaBuscar}}</strong></p>
+    <p class="tempo">Tempo de resposta (Frontend): <strong>{{ tempoDeBusca?.toFixed(2) }} ms</strong></p>
+    
+    <div *ngIf="produto" class="produto-info">
+      <h4>Produto Encontrado:</h4>
+      <pre>{{ produto | json }}</pre>
+    </div>
+    
+    <div *ngIf="erro" class="erro-info">
+      <h4>Ocorreu um erro:</h4>
+      <p>{{ erro }}</p>
+    </div>
+  </div>
+
+</main>
